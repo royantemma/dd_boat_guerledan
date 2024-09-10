@@ -180,5 +180,4 @@ b_mag = np.array([-2050.,   2037.5,  1185.5])
 
 
 
-#angles_euler(A_acc, b_acc, A_mag, b_mag)
 

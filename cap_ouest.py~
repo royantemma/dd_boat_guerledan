@@ -1,28 +1,79 @@
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), 'drivers-ddboat-v2'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'mission_1'))
 import arduino_driver_v2 as arddrv
+import imu9_driver_v2 as imudrv
 import calibration as calib
+import gps_driver_v2 as gpsdrv
 import time as time
+import numpy as np
+
+#initialisation du bateau
 ard = arddrv.ArduinoIO()
+gps = gpsdrv.GpsIO()
+gps.set_filter_speed("0")
+file = open ("log.txt", "w")
+file.write("code exécuté au moins au début")
 
-spdleft = 0
-spdright = 0
-ard.send_arduino_cmd_motor(spdleft, spdright)
-
-def suivi_cap():
-    psi_cap = np.pi/2
-    for i in range (360):
-        _, _, psi_chap = calib.angles_euler
-        delta = psi_cap-psi_chap
-        if delta >0:
-            spdleft = delta*0.25
-            spdright = 0
+def suivi_cap(psi_cap, t):
+    offset = 140
+    k=1
+    for i in range (t*2):
+        #calcul vitesse des moteurs
+        phi, theta, psi_chap = calib.angles_euler()
+        psi_chap = psi_chap%360 
+        delta = f_delta(psi_cap, psi_chap)
+        if np.abs(delta)>45:
+            offset = 20
         else :
-            spdleft = 0
-            spdright = delta*0.25
+            offset = 140
+        if delta >0:
+            spdright = min(delta*k+ offset, 255)
+            spdleft = offset
+        else :
+            spdright = offset
+            spdleft = min(offset - delta*k, 255)
         
         ard.send_arduino_cmd_motor(spdleft, spdright)
+
+        #enregistrement position
+        gll_ok, gll_data = gps.read_gll_non_blocking()
+        if gll_ok :
+            print("écriture")
+            txt = str(gll_data)+"\n"
+            file.write(txt)
         time.sleep(0.5)
         
         
+def f_delta(psi, psi_chap):
+    lst = [np.abs(psi-psi_chap-360), np.abs(psi-psi_chap), np.abs(psi-psi_chap +360)]
+    i = lst.index(min(lst))
+    delta = psi - psi_chap +360*(i-1)
+    return delta
+
+
+def stop(t=0):
+    ard.send_arduino_cmd_motor(0,0)
+    time.sleep(t)
+
+def depart():
+    while True:
+        a1 = calib.accel_corr()
+        if a1[0] >= 8:
+            break
+        time.sleep(0.5)
+        
+        
+def mission_1(): 
+    depart()
+    stop(2)
+    suivi_cap(45, 30)
+    stop(30)
+    suivi_cap(-135, 30)
+    stop()
+
+
+mission_1()
+
+file.close()
