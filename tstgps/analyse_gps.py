@@ -1,0 +1,53 @@
+import time
+import sys
+import gpxpy.gpx
+
+def cvt_gll_ddmm_2_dd (st):
+    ilat = float(st[0])
+    ilon = float(st[2])
+    olat = float(int(ilat/100))
+    olon = float(int(ilon/100))
+    olat_mm = (ilat%100)/60
+    olon_mm = (ilon%100)/60
+    olat += olat_mm
+    olon += olon_mm
+    st3 = st[3]
+    st3=st3[2:-1]
+    print(st3)
+    if st3 == "W":
+        olon = -olon
+    return olat,olon
+
+
+
+# open gpx buffer
+gpx = gpxpy.gpx.GPX()
+# Create first track in our GPX:
+gpx_track = gpxpy.gpx.GPXTrack()
+gpx.tracks.append(gpx_track)
+# Create first segment in our GPX track:
+gpx_segment = gpxpy.gpx.GPXTrackSegment()
+gpx_track.segments.append(gpx_segment)
+
+tmax = 10*60.0 # 10 minutes max (can be stopped before the end with Ctrl+C)
+t0 = time.time()
+
+file = open("data_stade.txt")
+for gps_data_string in file.readlines():
+    print ("---------------------------------------------------")
+
+    # test GPS
+    print(type(gps_data_string))
+    print ("GPS:",gps_data_string)
+    gps_data_string = gps_data_string[1:-1].split(",")
+    if gps_data_string[0] != "0.0":
+        lat,lon = cvt_gll_ddmm_2_dd (gps_data_string)
+        print (lat,lon)
+        gpx_segment.points.append(gpxpy.gpx.GPXTrackPoint(lat, lon))
+
+
+fp = open("tst.gpx","w")
+fp.write(gpx.to_xml())
+fp.write("\n")
+fp.close()
+file.close()
