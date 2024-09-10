@@ -1,0 +1,28 @@
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), 'drivers-ddboat-v2'))
+import arduino_driver_v2 as arddrv
+import calibration as calib
+import time as time
+ard = arddrv.ArduinoIO()
+
+spdleft = 0
+spdright = 0
+ard.send_arduino_cmd_motor(spdleft, spdright)
+
+def suivi_cap():
+    psi_cap = np.pi/2
+    for i in range (360):
+        _, _, psi_chap = calib.angles_euler
+        delta = psi_cap-psi_chap
+        if delta >0:
+            spdleft = delta*0.25
+            spdright = 0
+        else :
+            spdleft = 0
+            spdright = delta*0.25
+        
+        ard.send_arduino_cmd_motor(spdleft, spdright)
+        time.sleep(0.5)
+        
+        
