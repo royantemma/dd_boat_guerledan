@@ -31,7 +31,7 @@ Transformation des données sphériques en coordonnées cartésiennes
 Problèmes rencontrés : penser à convertir lesdonnées GPS en radians
 
 Obtention du log de l'aller-retour vers une bouée :
-![Aller-Retour vers une bouée](./mission_2/mission_2.png)
+<img src="./mission_2/mission_2.png" alt="Aller-Retour vers une bouée" width="500">
 
 ## Jour 3 : Suivi de trajectoire
 Problème : l'IMU prend l'eau : on doit le re-calibrer
