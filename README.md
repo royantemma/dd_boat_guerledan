@@ -12,7 +12,7 @@ Les résultats des différentes missions (photos, vidéos, relevés GPS, afficha
 ## Project status
 En cours.
 
-## Jour 1
+## Jour 1 : Suivi de cap
 Calibrage boussole
 Suivre le cap NW
 
