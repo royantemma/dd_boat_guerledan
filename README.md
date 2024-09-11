@@ -24,6 +24,6 @@ Problèmes rencontrés : penser à convertir lesdonnées GPS en radians
 
 Obtention du log de l'aller-retour vers une bouée : PHOTO
 
-# Jour 3 : Suivi de trajectoire
+## Jour 3 : Suivi de trajectoire
 Problème : l'IMU prend l'eau : on doit le re-calibrer
 Puis test du suivi de Lissajou
