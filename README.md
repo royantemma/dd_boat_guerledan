@@ -30,8 +30,7 @@ Obtention du log du parcours : 30s vers le NW puis 30s wait puis 30s vers le SE 
 Transformation des données sphériques en coordonnées cartésiennes
 Problèmes rencontrés : penser à convertir lesdonnées GPS en radians
 
-Obtention du log de l'aller-retour vers une bouée :
-<img src="./mission_2/mission_2.png" alt="Aller-Retour vers une bouée" width="500">
+<img src="./mission_2/mission_2.png" alt="Aller-Retour vers une bouée" width="400">
 
 ## Jour 3 : Suivi de trajectoire
 Problème : l'IMU prend l'eau : on doit le re-calibrer
