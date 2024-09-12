@@ -11,9 +11,8 @@ Rémi GenouxLubain, Yasmine Raoux, Emma Royant
 ## Les commandes de base
 Pour se connecter au DD-Boat :
 
-'''bash
-#savoir si le ddboat nous répond
-ping 172.20.25.212  
+```bash
+ping 172.20.25.212  #savoir si le ddboat nous répond
 
 ssh ue32@172.20.25.212  #mot de passe : ue32
 
