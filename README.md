@@ -59,6 +59,7 @@ Problèmes rencontrés : penser à convertir lesdonnées GPS en radians
 # Jour 3 : Suivi de trajectoire (navigation)
 Problème : l'IMU prend l'eau : on doit le re-calibrer
 Puis test du suivi de Lissajou
+Ajout de la fonction verif_gps car sinon les premières valeurs sont aberrantes et le ddboat part bizarrement
 
 # Jour 4 : Suivi de ligne (guidage)
 Effectuer un suivi de ligne vers la bouée puis continuer pendant 2 minutes (couloir de 5m)
