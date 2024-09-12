@@ -11,27 +11,22 @@ Rémi GenouxLubain, Yasmine Raoux, Emma Royant
 ## Les commandes de base
 
 Savoir si le ddboat nous répond :
-
 ```bash
 ping 172.20.25.212
 ```
+Se connecter au ddboat
 ```bash
 ssh ue32@172.20.25.208  #mot de passe : ue32
 ```
-
 Pour envoyer tout le fichier au dd-boat:
-
 ```bash
 scp fichier.py ue32@172.20.25.208:reymanta 
 ```
-
 ```bash
 cd reymanta
 python3 fichier.py  #exécute le fichier
 ```
-
 Pour récupérer le fichier de log du ddboat, qui sera placé dans le dossier courant :
-
 ```bash
 scp -ue32@172.20.25.208:reymanta/log.txt log.txt  
 ```
