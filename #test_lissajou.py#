@@ -1,0 +1,35 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+
+def spherique_a_plan(lx, ly):
+    lx = lx
+    ly = ly
+    return np.array([ro*np.cos(ly)*(lx-lxm), ro*(ly-lym)])
+
+
+
+lxm = 48.1991663*np.pi/180
+lym = -3.0146494*np.pi/180  #inversion de signe parce que z vers le haut
+lxa = 48.1995699*np.pi/180 #à modifier
+lya = -3.0153416*np.pi/180
+ro = 6347260
+m = np.array([0,0])
+a = spherique_a_plan(lxa, lya)
+A=12 #amplitude
+t0= 12*3600 #à définir : temps initial
+T=210 #période
+N=15 #nombre de bateaux
+delta_i = T*8/N
+kv = 1 #coefficient pour la vitesse
+
+def lissajou(t):
+   return A*np.sin(2*(t-t0+delta_i)/T*2*np.pi)+a[0],  A*np.sin((t-t0+delta_i)/T*2*np.pi)+a[1]
+
+for t in np.arange(0, T*2*np.pi, 0.5):
+    plt.plot(lissajou(t)[0], lissajou(t)[1], "o")
+    
+plt.plot(a[0], a[1], "x")
+plt.plot(m[0], m[1], "x")
+plt.show()

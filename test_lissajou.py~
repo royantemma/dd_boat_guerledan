@@ -1,0 +1,16 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+A=12 #amplitude
+ t0= 12*3600 #à définir : temps initial
+ T=210 #période
+ N=15 #nombre de bateaux
+ delta_i = T*8/N
+ kv = 1 #coefficient pour la vitesse
+
+ def lissajou(t):
+    return A*np.sin(2*(t-t0+delta_i)/T*2*np.pi)+a[1],  A*np.sin((t-t0+delta_i)/T*2*np.pi)+a[0]
+
+
+for t in np.arange(0, 2*np.pi, 0.1):
+    plt.plot(t, x(t))
