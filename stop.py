@@ -82,15 +82,15 @@ def suivi_cap_trajectoire():
         phi, theta, psi_chap = calib.angles_euler()
         psi_chap = psi_chap%360
         delta = f_delta(psi_cap, psi_chap)
-        print("vd :", vd)
-        offset = min(140, vd*100)
+        print("delta :", delta)
+        offset = min(255, vd*128)
         if delta >0:
             spdright = min(delta*k+ offset, 255)
             spdleft = offset
         else :
             spdright = offset
             spdleft = min(offset - delta*k, 255)
-        #print("spd right, spd left :", spdright, spdleft)
+        print("spd right, spd left :", spright, spdleft)
         ard.send_arduino_cmd_motor(spdleft, spdright)
 
         
@@ -235,7 +235,7 @@ if __name__ == "__main__":
     kv = 1 #coefficient pour la vitesse
 
 
-    mission_3()
+    #mission_3()
     stop()
     file.close()
 

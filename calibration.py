@@ -6,10 +6,15 @@ import time as time
 import numpy as np          
 
 imu = imudrv.Imu9IO()
-xmag, ymag, zmag = imu.read_mag_raw()
-xaccel, yaccel, zaccel = imu.read_accel_raw()
-xgyro, ygyro, zgyro = imu.read_gyro_raw()
-
+#valeurs des différentes matrices après calibration
+A_acc = np.array([[ -4.23445464e+02,  8.66462793e+01,  2.03873598e-01],
+                      [ -3.75127421e+01, -3.90825688e+02,  4.68909276e+00],
+                      [ -8.61365953e+00,  7.69113150e+01,  4.21967380e+02]] )
+b_acc = np.array([-104. , -18. ,  77.5])
+A_mag = np.array([[-65.800671  ,  7.82914696, -0.86771627],
+                      [ 17.04977549,-76.06270416, 13.78199284],
+                      [ -9.7112239 , 14.67029354, 62.78152652]])
+b_mag = np.array([-2477. , 2137. ,  858.5])
 
 def rotuv(u,v): #returns rotation with minimal angle  such that  v=R*u
     u=np.array(u).reshape(3,1)
@@ -27,6 +32,7 @@ def calibration_mag ():
     print("allez chop chop")
     xmag, ymag, zmag = imu.read_mag_raw()
     xn = np.array([xmag, ymag, zmag])
+
     time.sleep(3)
     print("Sud à l'envers")
     time.sleep(6)
@@ -60,7 +66,10 @@ def calibration_mag ():
     A = X@np.linalg.inv(Y)
 
     print("voilà c'était rapide")
+    print("mag")
     print(A, b.T)
+    print(np.array2string(A, separator = ','))
+    print(np.array2string(b.T, separator = ','))
 
 
 def calibration_acc():
@@ -99,10 +108,12 @@ def calibration_acc():
     A = 1/beta*X
 
     print("fini :)")
+    print("acc")
     print(A, b.T)
+    print(np.array2string(A, separator = ','))
+    print(np.array2string(b.T, separator = ','))
 
-
-def angles_euler(A_acc, b_acc, A_mag, b_mag):
+def angles_euler():
     xaccel, yaccel, zaccel = imu.read_accel_raw()
     xmag, ymag, zmag = imu.read_mag_raw()
 
@@ -138,46 +149,19 @@ def erreur(psi_d, psi_chap):
     
 
 
-def test_magnetisme():
-    A_mag = np.array([[-67.46851739,  -2.206411,   -37.06675841],
- [  4.29870475, -50.41805237,   2.68919986],
- [-29.69015204,  -0.85771692,  64.91296854]] )
-    b_mag = np.array([-2050.,   2037.5,  1185.5])
-
+def mag_corr():
     xmag, ymag, zmag = imu.read_mag_raw()
     X_mag = np.array([xmag, ymag, zmag]).T
     y1 = np.linalg.inv(A_mag)@(X_mag + b_mag)
-    print(np.linalg.inv(A_mag)@X_mag)
-    print(b_mag)
     y1 = y1/np.linalg.norm(y1)
-    print(y1*180/np.pi)
+    return y1*180/np.pi
 
-def test_accelero():
-    A_acc = np.array([[-380.07135576, -103.41488277, -185.57594292],
- [  29.10295617, -393.93476045,   40.11213048],
- [-203.97553517,   76.04485219,  375.73904179]] )
-    b_acc = np.array([-154.5,  -10.5,  -83. ])
-
+def accel_corr(): 
     xaccel, yaccel, zaccel = imu.read_accel_raw()
-
     #accélération corrigée & normalisée
     X_acc = np.array([xaccel, yaccel, zaccel]).T
     a1 = np.linalg.inv(A_acc)@(X_acc + b_acc)
     a1 = a1/np.linalg.norm(a1)
-    print(a1*9.81)
+    return a1*9.81
 
-
-#valeurs des différentes matrices après calibration
-A_acc = np.array([[-380.07135576, -103.41488277, -185.57594292],
- [  29.10295617, -393.93476045,   40.11213048],
- [-203.97553517,   76.04485219,  375.73904179]] )
-b_acc = np.array([-154.5,  -10.5,  -83. ])
-A_mag = np.array([[-67.46851739,  -2.206411,   -37.06675841],
- [  4.29870475, -50.41805237,   2.68919986],
- [-29.69015204,  -0.85771692,  64.91296854]] )
-b_mag = np.array([-2050.,   2037.5,  1185.5])
-
-
-
-
-
+    
