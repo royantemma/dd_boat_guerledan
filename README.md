@@ -9,21 +9,32 @@ On s'appelle reymanta (REY comme Rémi Emma Yasmine tu l'as)
 Rémi GenouxLubain, Yasmine Raoux, Emma Royant
 
 ## Les commandes de base
-Pour se connecter au DD-Boat :
+
+Savoir si le ddboat nous répond :
 
 ```bash
-ping 172.20.25.212  #savoir si le ddboat nous répond
+ping 172.20.25.212
+```
+```bash
+ssh ue32@172.20.25.208  #mot de passe : ue32
+```
 
-ssh ue32@172.20.25.212  #mot de passe : ue32
+Pour envoyer tout le fichier au dd-boat:
 
-cd orkiller2.0/py/
-python3 oho.py  #fichier test qui renvoie Oho !
-Pour envoyer tout le dossier py au dd-boat (depuis la racine du git, sur l'ordi) :
+```bash
+scp fichier.py ue32@172.20.25.208:reymanta 
+```
 
-scp -rp ../ddboat-s4/py ue32@172.20.25.212:orkiller2.0/py 
+```bash
+cd reymanta
+python3 fichier.py  #exécute le fichier
+```
+
 Pour récupérer le fichier de log du ddboat, qui sera placé dans le dossier courant :
 
-scp -rp ue32@172.20.25.212:orkiller2.0/py/data.txt data1.txt  
+```bash
+scp -ue32@172.20.25.208:reymanta/log.txt log.txt  
+```
 
 ## Fichiers
 Les résultats des différentes missions (photos, vidéos, relevés GPS, affichage maps) sont chacun par dans un dossier numéroté.
