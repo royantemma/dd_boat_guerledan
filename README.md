@@ -12,7 +12,8 @@ Rémi GenouxLubain, Yasmine Raoux, Emma Royant
 Pour se connecter au DD-Boat :
 
 '''bash
-ping 172.20.25.212  #pour voir si le ddboat répond  
+#savoir si le ddboat nous répond
+ping 172.20.25.212  
 
 ssh ue32@172.20.25.212  #mot de passe : ue32
 
