@@ -29,7 +29,7 @@ python3 fichier.py
 ```
 Pour récupérer le fichier de log du ddboat, qui sera placé dans le dossier courant :
 ```bash
-scp -ue32@172.20.25.208:reymanta/log.txt log.txt  
+scp ue32@172.20.25.208:reymanta/log.txt log.txt  
 ```
 
 # Fichiers
