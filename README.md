@@ -8,6 +8,22 @@ On s'appelle reymanta (REY comme Rémi Emma Yasmine tu l'as)
 ## Composition du groupe
 Rémi GenouxLubain, Yasmine Raoux, Emma Royant
 
+## Les commandes de base
+Pour se connecter au DD-Boat :
+
+'''ping 172.20.25.212  #pour voir si le ddboat répond  
+
+ssh ue32@172.20.25.212  #mot de passe : ue32
+
+cd orkiller2.0/py/
+python3 oho.py  #fichier test qui renvoie Oho !
+Pour envoyer tout le dossier py au dd-boat (depuis la racine du git, sur l'ordi) :
+
+scp -rp ../ddboat-s4/py ue32@172.20.25.212:orkiller2.0/py 
+Pour récupérer le fichier de log du ddboat, qui sera placé dans le dossier courant :
+
+scp -rp ue32@172.20.25.212:orkiller2.0/py/data.txt data1.txt  
+
 ## Fichiers
 Les résultats des différentes missions (photos, vidéos, relevés GPS, affichage maps) sont chacun par dans un dossier numéroté.
 
