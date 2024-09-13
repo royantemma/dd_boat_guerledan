@@ -47,9 +47,13 @@ def suivi_cap_fixe(a):
         if gll_ok :
             psi_cap, c = definir_cap(a, gll_data)
             cond = c
+        # print("cap")
+        # print(psi_cap)
         phi, theta, psi_chap = calib.angles_euler()
         psi_chap = psi_chap%360
+        # print(psi_chap)
         delta = f_delta(psi_cap, psi_chap)
+        #print("delta d", delta)
         if np.abs(delta)>30:
             k=4
             offset = 80
@@ -61,101 +65,10 @@ def suivi_cap_fixe(a):
         else :
             spdright = offset
             spdleft = min(offset - delta*k, 255)
+        # print("speed left", spdleft)
+        # print("speed right", spdright)
         ard.send_arduino_cmd_motor(spdleft, spdright)
         time.sleep(0.1)
-
-
-def definir_cap_2(a,b):
-    #vecteur direction d
-    d = b-a
-    norm_d = np.linalg.norm(d)
-    
-    #calcul du cap désiré
-    psi_cap = -np.arctan2(d[1], d[0])
-    
-    return psi_cap*180/np.pi
-
-
-def suivi_waypoints(lst):
-    verif_gps()
-    for i in range(len(lst)-1):
-        print("coords :",lst[i], lst[i+1])
-        a, b, = lst[i], lst[i+1]
-        psi_d = definir_cap_2(a, b)
-        suivi_ligne(a, b, psi_d)
-    
-
-
-def suivi_ligne(a,b, psi_d):
-    print("psi d", psi_d)
-    cond = True
-    offset = 190
-    psi_e = 0
-    #k = np.pi/180*75
-    # if b[0] == sax*3:
-    #     t0 = time.time()
-    t0 = time.time()    
-    while cond :
-        #calcul vitesse des moteurs
-        gll_ok, gll_data = gps.read_gll_non_blocking()
-        if gll_ok :
-            psi_e, c = erreur(a, b,gll_data)
-            cond = c
-        phi, theta, psi_chap = calib.angles_euler()
-        psi_chap = psi_chap%360
-
-        #calcul nouvel angle désiré
-        psi_cap = psi_d + 0.7*psi_e
-        print("erreur cap :",psi_e)
-        print("psi_chap :", psi_chap)
-        delta = f_delta(psi_cap, psi_chap)
-        
-        if np.abs(delta)>30:
-            k=3
-        else :
-            k=2
-        
-        if delta >0:
-            spdright = min(offset + delta*k, 255)
-            spdleft = max(0, offset - delta*k)
-        else :
-            spdleft = min(offset - delta*k, 255)
-            spdright = max(0, offset + delta*k)
-        ard.send_arduino_cmd_motor(spdleft, spdright)
-        time.sleep(0.1)
-        # if b[0] == sax*3:
-        #     t = time.time()-t0
-        #     cond = cond and (t<120)
-        #     print("2min")
-        while True:
-            if (time.time()-t0)>0.1:
-                break
-        t0=time.time()
-            
-        
-            
-        
-        
-def erreur(a, b, gll_data):
-    lat, lon = cvt_gll_ddmm_2_dd(gll_data)
-    txt = str(gll_data)+"\n"
-    file.write(txt)
-
-    #vecteur position p dans le plan
-    p = spherique_a_plan(lat*np.pi/180, lon*np.pi/180)
-    # print("coordonnées gps p", lat, lon)
-    # stop(20)
-    n = (b-a)/np.linalg.norm(b-a)
-
-    #calcul erreur
-    e = n[0]*(p[1]-a[1]) - n[1]*(p[0]-a[0])
-    print("distance au point :", np.linalg.norm(e))
-    psi_e = 0.5*180*np.tanh(e/5)/np.pi
-
-    cond = ((b-a).T@(b-p) >0) and (np.linalg.norm(b-p)>5)
-    return psi_e, cond
-    
-    
 
 def suivi_cap_trajectoire():
     offset = 200
@@ -212,7 +125,7 @@ def definir_cap(a, gll_data):
 
     #vecteur position p dans le plan
     p = spherique_a_plan(lat*np.pi/180, lon*np.pi/180)
-    print("position :", lat, lon)
+    
     #vecteur direction d
     d = a-p
     norm_d = np.linalg.norm(d)
@@ -302,41 +215,17 @@ def mission_2():
 
 
 
-def mission_4():
-    #depart()
-    stop(2)
-    lst = [m,amer, amer_b, amer_c, amer_b, amer,m, amer, amer_b, amer_c, amer_b, amer, m]
-    #lst = [m, amer, m]
-    suivi_waypoints(lst)
-    stop()
-
-
-def retour():
-    #depart()
-    stop()
-    lst = [amer,m]
-    suivi_waypoints(lst)
-    stop()
-
-    
 if __name__ == "__main__":
     #initialisation gps
-    lxm =48.19922833333*np.pi/180
-    lym = -3.014735*np.pi/180  #inversion de signe parce que z vers le haut
-    # lxm = 48.19922666666666*np.pi/180
-    # lym = -3.0146383333333335*np.pi/180
+    lxm = 48.1991663*np.pi/180
+    lym = -3.0146494*np.pi/180  #inversion de signe parce que z vers le haut
     lxa = 48.1995699*np.pi/180 #à modifier
     lya = -3.0153416*np.pi/180
-    lxb = 48.2006278*np.pi/180
-    lyb = -3.0167036*np.pi/180
-    lxc = 48.20194444444*np.pi/180
-    lyc = -3.01472222222*np.pi/180
     ro = 6347260
     m = np.array([0,0])
-    amer = spherique_a_plan(lxa, lya)
-    sax = amer[0]
-    amer_b = spherique_a_plan(lxb, lyb)
-    amer_c = spherique_a_plan(lxc, lyc)
+    a = spherique_a_plan(lxa, lya)
+
+
     #variables
     A=12 #amplitude
     t0= 12*3600 #à définir : temps initial
@@ -345,8 +234,8 @@ if __name__ == "__main__":
     delta_i = T*8/N
     kv = 1 #coefficient pour la vitesse
 
-    #suivi_cap_fixe(m)
-    mission_4()
+
+    mission_3()
     stop()
     file.close()
 

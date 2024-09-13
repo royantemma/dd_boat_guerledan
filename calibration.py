@@ -7,14 +7,14 @@ import numpy as np
 
 imu = imudrv.Imu9IO()
 #valeurs des différentes matrices après calibration
-A_acc = np.array([[ -4.23445464e+02,  8.66462793e+01,  2.03873598e-01],
-                      [ -3.75127421e+01, -3.90825688e+02,  4.68909276e+00],
-                      [ -8.61365953e+00,  7.69113150e+01,  4.21967380e+02]] )
-b_acc = np.array([-104. , -18. ,  77.5])
-A_mag = np.array([[-65.800671  ,  7.82914696, -0.86771627],
-                      [ 17.04977549,-76.06270416, 13.78199284],
-                      [ -9.7112239 , 14.67029354, 62.78152652]])
-b_mag = np.array([-2477. , 2137. ,  858.5])
+A_acc = np.array([[-412.1814475 , 143.47604485, -23.90417941],
+ [-139.70438328,-445.20897044, -20.74413863],
+ [ -44.29153925,  24.31192661, 423.29255861]])
+b_acc = np.array([-138.5,-313.5, -78.5])
+A_mag = np.array([[-59.65180566,  0.24215142,  1.15171229],
+ [-22.35720551,-43.59842066, -7.53025139],
+ [-10.87495317,  6.56056259, 65.50336965]])
+b_mag = np.array([ 624.5,-314.5, 716.5])
 
 def rotuv(u,v): #returns rotation with minimal angle  such that  v=R*u
     u=np.array(u).reshape(3,1)
@@ -32,19 +32,21 @@ def calibration_mag ():
     print("allez chop chop")
     xmag, ymag, zmag = imu.read_mag_raw()
     xn = np.array([xmag, ymag, zmag])
-
+    print("ok")
     time.sleep(3)
     print("Sud à l'envers")
     time.sleep(6)
     print("allez chop chop")
     xmag, ymag, zmag = imu.read_mag_raw()
     xs = np.array([xmag, ymag, zmag])
+    print("ok")
     time.sleep(3)
     print("Ouest")
     time.sleep(6)
     print("allez chop chop")
     xmag, ymag, zmag = imu.read_mag_raw()
     xw = np.array([xmag, ymag, zmag])
+    print("ok")
     time.sleep(3)
     print("up, z au nord")
     time.sleep(6)
@@ -67,7 +69,6 @@ def calibration_mag ():
 
     print("voilà c'était rapide")
     print("mag")
-    print(A, b.T)
     print(np.array2string(A, separator = ','))
     print(np.array2string(b.T, separator = ','))
 
@@ -78,18 +79,21 @@ def calibration_acc():
     print("allez prends tes mesures loustic")
     xaccel, yaccel, zaccel = imu.read_accel_raw()
     xx = np.array([xaccel, yaccel, zaccel])
+    print("ok")
     time.sleep(1)
     print("y vers le haut")
     time.sleep(10)
     print("allez prends tes mesures loustic")
     xaccel, yaccel, zaccel = imu.read_accel_raw()
     xy = np.array([xaccel, yaccel, zaccel])
+    print("ok")
     time.sleep(1)
     print("z vers le haut")
     time.sleep(10)
     print("allez prends tes mesures loustic")
     xaccel, yaccel, zaccel = imu.read_accel_raw()
     xz = np.array([xaccel, yaccel, zaccel])
+    print("ok")
     time.sleep(1)
     print("z vers le bas")
     time.sleep(10)
@@ -109,7 +113,6 @@ def calibration_acc():
 
     print("fini :)")
     print("acc")
-    print(A, b.T)
     print(np.array2string(A, separator = ','))
     print(np.array2string(b.T, separator = ','))
 
@@ -164,4 +167,14 @@ def accel_corr():
     a1 = a1/np.linalg.norm(a1)
     return a1*9.81
 
+def test():
+	for i in range(100):
+		print("mag", mag_corr())
+		print("acc",accel_corr())
+		time.sleep(1)
     
+# calibration_mag()
+# print("pause")
+# time.sleep(3)
+# calibration_acc()
+#test()

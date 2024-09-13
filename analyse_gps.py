@@ -1,0 +1,78 @@
+import time
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), 'drivers-ddboat-v2'))
+import gpxpy.gpx
+
+
+def cvt_gll_ddmm_2_dd (st):
+    ilat = float(st[0])
+    ilon = float(st[2])
+    olat = float(int(ilat/100))
+    olon = float(int(ilon/100))
+    olat_mm = (ilat%100)/60
+    olon_mm = (ilon%100)/60
+    olat += olat_mm
+    olon += olon_mm
+    st3 = st[3]
+    st3=st3[2:-1]
+    print(st3)
+    if st3 == "W":
+        olon = -olon
+    return olat,olon
+
+
+
+# open gpx buffer
+gpx = gpxpy.gpx.GPX()
+# Create first track in our GPX:
+gpx_track = gpxpy.gpx.GPXTrack()
+gpx.tracks.append(gpx_track)
+# Create first segment in our GPX track:
+gpx_segment = gpxpy.gpx.GPXTrackSegment()
+gpx_track.segments.append(gpx_segment)
+
+
+def txt_to_gpx(txt_filename, gpx_filename):
+    file = open(txt_filename)
+    gpx_segment.points = []
+    for gps_data_string in file.readlines():
+        #print ("---------------------------------------------------")
+        
+        # test GPS
+        #print(type(gps_data_string))
+        #print ("GPS:",gps_data_string)
+        gps_data_string = gps_data_string[1:-1].split(",")
+        if gps_data_string[0] != "0.0":
+            lat,lon = cvt_gll_ddmm_2_dd (gps_data_string)
+            #print (lat,lon)
+            gpx_segment.points.append(gpxpy.gpx.GPXTrackPoint(lat, lon))
+            
+            
+    fp = open(gpx_filename,"w")
+    fp.write(gpx.to_xml())
+    fp.write("\n")
+    fp.close()
+    file.close()
+
+def process_files(min_lines=0):
+    # Parcourir tous les fichiers .txt dans le répertoire courant
+    for filename in os.listdir('.'):
+        if filename.endswith('.txt'):
+            txt_filename = filename
+            
+            # Compter le nombre de lignes dans le fichier .txt
+            with open(txt_filename, 'r') as txt_file:
+                num_lines = len(txt_file.readlines())
+            
+            # Vérifier si le fichier a au moins `min_lines` lignes
+            #if num_lines >= min_lines:
+            gpx_filename = filename.replace('.txt', '.gpx')
+            txt_to_gpx(txt_filename, gpx_filename)
+            #else:
+            #    print(f"{txt_filename} ne contient pas suffisamment de lignes (moins de {min_lines} lignes). Ignoré.")
+
+# Appeler la fonction avec la condition sur le nombre de lignes
+process_files(min_lines=0)
+
+#txt_to_gpx("log_20240912_120825.txt", "log_20240912_120825.gpx")
