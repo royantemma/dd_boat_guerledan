@@ -61,8 +61,13 @@ Cette fois ci, il n'a fait qu'un aller, car il a manqué de batterie au milieu d
 Pour éviter les oscillations, nous nous sommes après coup dit que nous aurions pu relancer à zéro à chaque bouée atteinte, ce qui aurait ainsi peut être pu éviter d'avoir d'aussi grandes oscillations après plusieurs waypoints, car on peut voir que la ligne de départ est toujours plus ou moins bien suivie.
 
 ## Jour 5 : Différentes zones
-Problème avec le suivi des waypoints (on ne sait pas pourquoi)
-à l'heure de la mission, erreur d'inattention sur l'heure de départ
+Pour cette mission, il nous fallait être à au moins plus de 25m de la bouée A avant une certaine heure, puis entrer dans la zone, et atteindre la bouée et y rester exactement 2 minutes après.
+Pour ce faire, nous avons décidé de faire un suivi de waypoints, en définissant 2 autres points : l'un hors de la zone, et un second à environ 10m de la bouée, et de lancer les départs en différé en fonction de l'heure demandée. 
+Cependant, au moment de tester notre code, nous avons commencé à avoir des problèmes avec notre suivi de waypoints, que nous avons mis du temps à régler, et lors du départ, nous avons par inattention mal changé l'horaire de départ, ce qui fait que notre ddboat n'a pas pu partir avec les autres.
+Cependant, voici ci dessous le log du trajet réalisé avant l'heure du vrai challenge :
+
+![Mission 5 : Différentes zones : suivi des 3 waypoints](./mission_5/mission_5.png "Mission 5")
+
 
 # Les commandes de base
 
