@@ -22,18 +22,20 @@ Les résultats des différentes missions (photos, vidéos, relevés GPS, afficha
 # Déroulé de la semaine
 
 ## Jour 1 : Suivi de cap
-Le premier jour, il nous a d'abord fallu calibrer l'accéléromètre ainsi que le magnétomètre (création du fichier calibration.py).
-Une fois avoir testé à l'extérieur que le DDboat était bien calibré, nous avons pu passer à la mission du jour qui consistait à suivre le cap ouest pendant 30 secondes.
-Nous avons aussi réussi à récupérer les logs dans un fichier texte, que nous avons ensuite traité grâce à ce que nous avions déjà fait le vendredi précédent avec les essais sur le stade. Avec le fichier .gpx obtenu, nous avons pu afficher le trajet du ddboat sur Google Maps.
+   Le premier jour, il nous a d'abord fallu calibrer l'accéléromètre ainsi que le magnétomètre (création du fichier calibration.py). Une fois avoir testé à l'extérieur que le DDboat était bien calibré, nous avons pu passer à la mission du jour qui consistait à suivre le cap ouest pendant 30 secondes.  
+   Nous avons aussi réussi à récupérer les logs dans un fichier texte, que nous avons ensuite traité grâce à ce que nous avions déjà fait le vendredi précédent avec les essais sur le stade. Avec le fichier .gpx obtenu, nous avons pu afficher le trajet du ddboat sur Google Maps.
 
 ![Mission 1 : suivi NW pendant 30s depuis le ponton](./mission_1/mission_1.png "Mission 1")
 
 
 ## Jour 2 : Rejoindre un waypoint
-Transformation des données sphériques en coordonnées cartésiennes
-Problèmes rencontrés : penser à convertir les données GPS en radians
+Nous avons eu un cours sur comment rejoindre un waypoint, et notamment la conversion des coordonnées sphériques (latitude/longitude) en coordonnées cartésiennes dans le plan du lac (avec un point du ponton comme origine).  
+Les différents problèmes que nous avons rencontrés dans la journée ont été :  
+* l'oubli de la conversion des angles des degrés en radians  
+* le GPS est en NED (et les coordonnées classiques dans Google Maps par exemple) alors que nos équations étaient dans un repère avec les coordonées en Ouest positives, il fallait donc veiller à mettre les bonnes valeurs négatives.  
+L'image ci-dessous montre le trajet du bateau, qui a fait un suivi de cap jusqu'à la bouée avant de revenir au ponton (validation de la bouée quand le ddboat était dans un rayon de 5m de la bouée) 
 
-![image](./mission_2/mission_2.png "Mission 2")
+![Mission 2 : aller à la bouée et revenir au ponton](./mission_2/mission_2.png "Mission 2")
 
 ## Jour 3 : Suivi de trajectoire (navigation)
 Problème : l'IMU prend l'eau : on doit le re-calibrer
