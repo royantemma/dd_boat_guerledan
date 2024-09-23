@@ -1,0 +1,163 @@
+\hypertarget{guerluxe9dan---reymanta}{%
+\section{Guerlédan - Reymanta}\label{guerluxe9dan---reymanta}}
+
+\hypertarget{description}{%
+\subsection{Description}\label{description}}
+
+Projet Guerlédan septembre 2024. Composition du groupe : Emma, Rémi et
+Yasmine. Nom de groupe : reymanta
+
+\hypertarget{fichiers}{%
+\section{Fichiers}\label{fichiers}}
+
+Les résultats des différentes missions (photos, vidéos, relevés GPS,
+affichage maps) sont chacun dans un dossier numéroté.
+
+\hypertarget{nos-diffuxe9rents-fichiers-python}{%
+\subsection{Nos différents fichiers
+python}\label{nos-diffuxe9rents-fichiers-python}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{calibration.py} : calibrer l'accéléromètre et le magnétomètre
+  et renvoie les angles d'Euler ains que calculer les valeurs de
+  l'accéléromètre et du mgnétomètre corrigées
+\item
+  \textbf{cap\_ouest.py} : suivre un cap et enregistrer les données GPS
+  dans un log (pour la mission 1)
+\item
+  \textbf{sens\_imu.py} : permet de tester si l'IMU fonctionne bien
+  (pour quand on commence à avoir des valeurs aberrantes/ qui ne bougent
+  plus)
+\item
+  \textbf{analyse\_gps.py} : convertir les données GPS du log (fichier
+  txt) en données GPX automatiquement pour tous les fichiers txt du
+  dossier
+\item
+  \textbf{stop.py} : permet d'arrêter les moteurs du bateau
+\item
+  **test\_lissajou.py : fichier pour afficher le lissajou grâce à
+  matplotlib pour vérifier les équations/ les paramètres d'entrée
+\item
+  \textbf{main.py} : contient tous les codes des missions 2, 3, 4 et 5
+  (suivre un cap fixe, suivre une ligne, suivre une liste de waypoints,
+  lissajou etc\ldots)
+\end{itemize}
+
+\hypertarget{duxe9rouluxe9-de-la-semaine}{%
+\section{Déroulé de la semaine}\label{duxe9rouluxe9-de-la-semaine}}
+
+\hypertarget{jour-1-suivi-de-cap}{%
+\subsection{Jour 1 : Suivi de cap}\label{jour-1-suivi-de-cap}}
+
+Le premier jour, il nous a d'abord fallu calibrer l'accéléromètre ainsi
+que le magnétomètre (création du fichier calibration.py). Une fois avoir
+testé à l'extérieur que le DDboat était bien calibré, nous avons pu
+passer à la mission du jour qui consistait à suivre le cap ouest pendant
+30 secondes.\\
+Nous avons aussi réussi à récupérer les logs dans un fichier texte, que
+nous avons ensuite traité grâce à ce que nous avions déjà fait le
+vendredi précédent avec les essais sur le stade. Avec le fichier .gpx
+obtenu, nous avons pu afficher le trajet du ddboat sur Google Maps.
+
+\begin{figure}
+\centering
+\includegraphics{./mission_1/mission_1.png}
+\caption{Mission 1 : suivi NW pendant 30s depuis le ponton}
+\end{figure}
+
+\hypertarget{jour-2-rejoindre-un-waypoint}{%
+\subsection{Jour 2 : Rejoindre un
+waypoint}\label{jour-2-rejoindre-un-waypoint}}
+
+Nous avons eu un cours sur comment rejoindre un waypoint, et notamment
+la conversion des coordonnées sphériques (latitude/longitude) en
+coordonnées cartésiennes dans le plan du lac (avec un point du ponton
+comme origine).\\
+Les différents problèmes que nous avons rencontrés dans la journée ont
+été :\\
+* l'oubli de la conversion des angles des degrés en radians\\
+* le GPS est en NED (et les coordonnées classiques dans Google Maps par
+exemple) alors que nos équations étaient dans un repère avec les
+coordonées en Ouest positives, il fallait donc veiller à mettre les
+bonnes valeurs négatives.\\
+L'image ci-dessous montre le trajet du bateau, qui a fait un suivi de
+cap jusqu'à la bouée avant de revenir au ponton (validation de la bouée
+quand le ddboat était dans un rayon de 5m de la bouée)
+
+\begin{figure}
+\centering
+\includegraphics{./mission_2/mission_2.png}
+\caption{Mission 2 : aller à la bouée et revenir au ponton}
+\end{figure}
+
+\hypertarget{jour-3-suivi-de-trajectoire-navigation}{%
+\subsection{Jour 3 : Suivi de trajectoire
+(navigation)}\label{jour-3-suivi-de-trajectoire-navigation}}
+
+Problème : l'IMU prend l'eau : on doit le re-calibrer Puis test du suivi
+de Lissajou Ajout de la fonction verif\_gps car sinon les premières
+valeurs sont aberrantes et le ddboat part bizarrement
+
+\hypertarget{jour-4-suivi-de-ligne-guidage}{%
+\subsection{Jour 4 : Suivi de ligne
+(guidage)}\label{jour-4-suivi-de-ligne-guidage}}
+
+Effectuer un suivi de ligne vers la bouée puis continuer pendant 2
+minutes (couloir de 5m) Aller de points en points grâce au suivi de
+ligne jusqu'à ne plus voir le ddboat !attention! commande à 120 pour
+conserver les batteries -\textgreater{} endurance !! IMU a pris l'eau
+-\textgreater{} recalibration
+
+\hypertarget{jour-5-diffuxe9rentes-zones}{%
+\subsection{Jour 5 : Différentes
+zones}\label{jour-5-diffuxe9rentes-zones}}
+
+Problème avec le suivi des waypoints (on ne sait pas pourquoi) à l'heure
+de la mission, erreur d'inattention sur l'heure de départ
+
+\hypertarget{les-commandes-de-base}{%
+\section{Les commandes de base}\label{les-commandes-de-base}}
+
+Savoir si le ddboat nous répond :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ping}\NormalTok{ 172.20.25.212}
+\end{Highlighting}
+\end{Shaded}
+
+Se connecter au ddboat
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ssh}\NormalTok{ ue32@172.20.25.208  \#mot de passe : ue32}
+\end{Highlighting}
+\end{Shaded}
+
+Pour envoyer tout le fichier au dd-boat:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{scp}\NormalTok{ fichier.py ue32@172.20.25.208:reymanta }
+\end{Highlighting}
+\end{Shaded}
+
+Exécuter le fichier
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{cd}\NormalTok{ reymanta}
+\ExtensionTok{python3}\NormalTok{ fichier.py}
+\end{Highlighting}
+\end{Shaded}
+
+Pour récupérer le fichier de log du ddboat, qui sera placé dans le
+dossier courant :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{scp}\NormalTok{ ue32@172.20.25.208:reymanta/log.txt log.txt  }
+\end{Highlighting}
+\end{Shaded}
