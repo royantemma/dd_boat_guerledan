@@ -57,10 +57,11 @@ def txt_to_gpx(txt_filename, gpx_filename):
 
 def process_files(min_lines=0):
     # Parcourir tous les fichiers .txt dans le répertoire courant
-    for filename in os.listdir('.'):
+    for filename in os.listdir('./mission_5'):
+        filename = "mission_5/"+filename
         if filename.endswith('.txt'):
             txt_filename = filename
-            
+            print(filename)
             # Compter le nombre de lignes dans le fichier .txt
             with open(txt_filename, 'r') as txt_file:
                 num_lines = len(txt_file.readlines())
@@ -73,6 +74,6 @@ def process_files(min_lines=0):
             #    print(f"{txt_filename} ne contient pas suffisamment de lignes (moins de {min_lines} lignes). Ignoré.")
 
 # Appeler la fonction avec la condition sur le nombre de lignes
-process_files(min_lines=0)
+process_files(min_lines=2)
 
 #txt_to_gpx("log_20240912_120825.txt", "log_20240912_120825.gpx")
