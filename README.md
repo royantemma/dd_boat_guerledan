@@ -46,13 +46,19 @@ Nous avons donc perdu beaucoup de temps sur notre journée, et au final notre li
 ## Jour 4 : Suivi de ligne (guidage)
 Le matin, nous avons eu un cours sur le suivi de ligne, pour éviter le phénomène de la courbe du chien. La première mission du jour consistait en : aller jusqu'à la bouée et continuer avec le même cap pendant 2 min (que nous avons raccourci à 1min30 sous les conseils d'un groupe précédent). Voici le log de ce trajet :
 
-![Mission 4 : suivi NW pendant 30s depuis le ponton](./mission_4/mission_4_bis.png "Mission 1")
+![Mission 4 bis : direction de la bouée pendant 1min30 et retour](./mission_4/mission_4_bis.png "Mission 4 bis")
 
-Effectuer un suivi de ligne vers la bouée puis continuer pendant 2 minutes (couloir de 5m)
-Aller de points en points grâce au suivi de ligne jusqu'à ne plus voir le ddboat
-!attention! commande à 120 pour conserver les batteries -> endurance !!
+Pour l'après-midi, nous avons récupéré les coordonnées GPS de 3 bouées, et l'objectif était de passer par chaque bouée et re revenir, et répéter le trajet jusqu'à ce que le bateau n'ait plus de batteries.
+Nous avons donc fait un suivi de waypoints en suivant à chaque fois la ligne imaginaire entre deux bouées (fonction suivi_ligne() dans le fichier main.py). Le waypoint est ensuite validé soit quand le ddboat entre dans la zone à moins de 5m de la bouée, soit lorsqu'il franchit le plan perpendiculaire à la ligne tracée au niveau de la bouée.
+L'image ci dessous montre les (presque) 3 aller-retours accomplis par le ddboat :
 
+![Mission 4 : Course d'endurance : suivi des 3 waypoints](./mission_4/course_endurance.png "Mission 4")
 
+Le premier aller-retour correspond à la ligne bleue. Nous avons vite remarqué que plus le bateau avançait, plus il faisait de grandes oscillations au lieu de suivre la ligne de façon droite.
+Lors du deuxième aller-retour, nous avons donc réduit le coefficient devant l'erreur de cap calculée en fonction de l'écart à la ligne, afin de rendre son influence plus faible par rapport au cap initial. Cela a en effet permis de réduire les oscillations, on peut le voir sur la ligne verte, qui correspond au 2e trajet.
+Enfin, pour le troisème trajet, nous avons essayé d'augmenter les vitesses des moteurs (avec un offset de 120 au lieu de 80) à la demande de M. Jaulin.
+Cette fois ci, il n'a fait qu'un aller, car il a manqué de batterie au milieu du trajet.
+Pour éviter les oscillations, nous nous sommes après coup dit que nous aurions pu relancer à zéro à chaque bouée atteinte, ce qui aurait ainsi peut être pu éviter d'avoir d'aussi grandes oscillations après plusieurs waypoints, car on peut voir que la ligne de départ est toujours plus ou moins bien suivie.
 
 ## Jour 5 : Différentes zones
 Problème avec le suivi des waypoints (on ne sait pas pourquoi)
