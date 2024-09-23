@@ -16,7 +16,7 @@ Les résultats des différentes missions (photos, vidéos, relevés GPS, afficha
 * **sens_imu.py** : permet de tester si l'IMU fonctionne bien (pour quand on commence à avoir des valeurs aberrantes/ qui ne bougent plus)
 * **analyse_gps.py** : convertir les données GPS du log (fichier txt) en données GPX automatiquement pour tous les fichiers txt du dossier
 * **stop.py** : permet d'arrêter les moteurs du bateau
-* **test_lissajou.py : fichier pour afficher le lissajou grâce à matplotlib pour vérifier les équations/ les paramètres d'entrée
+* **test_lissajou.py** : fichier pour afficher le lissajou grâce à matplotlib pour vérifier les équations/ les paramètres d'entrée
 * **main.py** : contient tous les codes des missions 2, 3, 4 et 5 (suivre un cap fixe, suivre une ligne, suivre une liste de waypoints, lissajou etc...)
 
 # Déroulé de la semaine
@@ -38,15 +38,21 @@ L'image ci-dessous montre le trajet du bateau, qui a fait un suivi de cap jusqu'
 ![Mission 2 : aller à la bouée et revenir au ponton](./mission_2/mission_2.png "Mission 2")
 
 ## Jour 3 : Suivi de trajectoire (navigation)
-Problème : l'IMU prend l'eau : on doit le re-calibrer
-Puis test du suivi de Lissajou
-Ajout de la fonction verif_gps car sinon les premières valeurs sont aberrantes et le ddboat part bizarrement
+Nous avons commencé par faire le lissajou. Après avoir testé si nous avions bien la bonne fonction en faisant une petite simulation sous matplotlib, nous avons commencé à travailler sur code.
+Nous l'avons testé une première fois, et il était orienté selon y et pas selon x, donc nous avons essayé de le modifier, mais peu près notre IMU a pris l'eau, et il nous a fallu un moment avant de nous en rendre compte (le suivi de waypoints ne marchait plus du tout, et avec la fonction verif_gps(), nous avons réalisé qu'il nous renvoyait toujours la même valeur.)
+Nous avons commencé par sécher l'IMU, mais finalement elle était vraiment endommagée, donc nous avons dû la remplacer et recommencer les calibrations.
+Nous avons donc perdu beaucoup de temps sur notre journée, et au final notre lissajou n'a pas vraiment fonctionné, et nous n'avons pas eu le temps le lendemain de l'améliorer.
 
 ## Jour 4 : Suivi de ligne (guidage)
+Le matin, nous avons eu un cours sur le suivi de ligne, pour éviter le phénomène de la courbe du chien. La première mission du jour consistait en : aller jusqu'à la bouée et continuer avec le même cap pendant 2 min (que nous avons raccourci à 1min30 sous les conseils d'un groupe précédent). Voici le log de ce trajet :
+
+![Mission 4 : suivi NW pendant 30s depuis le ponton](./mission_4/mission_4_bis.png "Mission 1")
+
 Effectuer un suivi de ligne vers la bouée puis continuer pendant 2 minutes (couloir de 5m)
 Aller de points en points grâce au suivi de ligne jusqu'à ne plus voir le ddboat
 !attention! commande à 120 pour conserver les batteries -> endurance !!
-IMU a pris l'eau -> recalibration 
+
+
 
 ## Jour 5 : Différentes zones
 Problème avec le suivi des waypoints (on ne sait pas pourquoi)
