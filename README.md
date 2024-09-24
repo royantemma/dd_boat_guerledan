@@ -68,6 +68,18 @@ Cependant, voici ci dessous le log du trajet réalisé avant l'heure du vrai cha
 
 ![Mission 5 : Différentes zones : suivi des 3 waypoints](./mission_5/mission_5.png "Mission 5")
 
+#Nos fonctions principales 
+## Suivi de cap fixe
+A chaque réception de nouvelles données GPS, le cap désiré du bateau est calculé en fonction de sa position et de celle du point cible. Si l'écart entre le cap désiré et le cap actuel du bateau est supérieur à 30 degrés, la correction est plus forte et la vitesse de base plus faible afin d'optimiser la trajectoire.
+Le bateau s'arrête une fois qu'il atteint sa destination ou qu'il est à moins de 5 mètres de celle-ci.
+
+## Suivi de ligne
+Pour gérer la navigation entre deux points a et b en suivant une ligne droite, on commence par vérifier la position du bateau par rapport à la ligne reliant a et b. 
+L'angle désiré initial est calculé comme pour le suivi de cap, sauf que cette fois ci on calcule également un angle d'erreur à partir de l'erreur de position par rapport à la ligne imaginaire entre a et b. 
+De nouveau, le bateau s'arrête une fois qu'il atteint la destination b ou qu'il est à moins de 5 mètres de celle-ci.
+
+## Suivi de waypoints
+Cette fonction permet au bateau de suivre une série de waypoints définis dans une liste lst. Pour chaque paire de points successifs dans la liste, elle appelle la fonction suivi_ligne pour suivre la trajectoire entre eux. À chaque segment, le cap nécessaire pour atteindre le point suivant est recalculé, et une fois que tous les points ont été atteints, le bateau s'arrête.
 
 # Les commandes de base
 
