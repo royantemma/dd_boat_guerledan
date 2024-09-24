@@ -68,7 +68,7 @@ Cependant, voici ci dessous le log du trajet réalisé avant l'heure du vrai cha
 
 ![Mission 5 : Différentes zones : suivi des 3 waypoints](./mission_5/mission_5.png "Mission 5")
 
-#Nos fonctions principales 
+# Les fonctions principales 
 ## Suivi de cap fixe
 A chaque réception de nouvelles données GPS, le cap désiré du bateau est calculé en fonction de sa position et de celle du point cible. Si l'écart entre le cap désiré et le cap actuel du bateau est supérieur à 30 degrés, la correction est plus forte et la vitesse de base plus faible afin d'optimiser la trajectoire.
 Le bateau s'arrête une fois qu'il atteint sa destination ou qu'il est à moins de 5 mètres de celle-ci.
