@@ -17,7 +17,7 @@ Les résultats des différentes missions (photos, vidéos, relevés GPS, afficha
 * **analyse_gps.py** : Le programme convertit les données GPS du log (fichier txt) en données GPX automatiquement pour tous les fichiers txt du dossier. Une option existe pour ne traiter que les fichiers d'une certaine longueur. 
 * **stop.py** : Fonction très simple qui permet d'arrêter complètement les moteurs du bateau.
 * **test_lissajou.py** : C'est un fichier pour afficher le tracé des fonctions lissajou grâce à matplotlib. Elle est notamment utile pour vérifier les équations/ les paramètres d'entrée lors des exécutions. 
-* **main.py** : Ce fichier contient tous les codes des missions 2, 3, 4 et 5. C'est d'ici que l'on lance les programmes servant aux différentes missions. Le fichier contient par ailleurs les différentes fonctions que doit exécuter notre bateau pour ses différentes escpades lacustres (suivre un cap fixe, suivre une ligne, suivre une liste de waypoints, lissajou etc...).
+* **main.py** : Ce fichier contient tous les codes des missions 2, 3, 4 et 5. C'est d'ici que l'on lance les programmes servant aux différentes missions. Le fichier contient par ailleurs les différentes fonctions que doit exécuter notre bateau pour ses différentes escapades lacustres (suivre un cap fixe, suivre une ligne, suivre une liste de waypoints, lissajou etc...).
 
 # Déroulé de la semaine
 
@@ -33,7 +33,7 @@ Les résultats des différentes missions (photos, vidéos, relevés GPS, afficha
 Nous avons eu un cours sur comment rejoindre un waypoint, et notamment la conversion des coordonnées sphériques (latitude/longitude) en coordonnées cartésiennes dans le plan du lac (avec un point du ponton comme origine).  
 Les différents problèmes que nous avons rencontrés dans la journée ont été :  
 * l'oubli de la conversion des angles des degrés en radians pour les fonctions trigonométriques malgré que nos corrections de cap soient en degré. 
-* le GPS est en NED (et les coordonnées classiques dans Google Maps par exemple) alors que nos équations étaient dans un repère avec les coordonées en Ouest positives, il fallait donc veiller à hanger les bons signes.  
+* le GPS est en NED (et les coordonnées classiques dans Google Maps par exemple) alors que nos équations étaient dans un repère avec les coordonées en Ouest positives, il fallait donc veiller à changer les bons signes.  
 L'image ci-dessous montre le trajet du bateau, qui a fait un suivi de cap jusqu'à la bouée avant de revenir au ponton (validation de la bouée quand le ddboat était dans un rayon de 5m de la bouée).
 
 ![Mission 2 : aller à la bouée et revenir au ponton](./mission_2/mission_2.png "Mission 2")
@@ -43,6 +43,7 @@ Nous avons commencé par travailler sur le programme du lissajou. Après avoir t
 Nous l'avons d'abord testé une première fois, le bateau semblait décrire la bonne courbe, seulement, il était plus pratique de changer l'orientation de la courbe en mettant son axe principal sur l'axe nord-sud. Donc nous avons essayé de le modifier, mais peu de temps après notre IMU a soudainement pris l'eau. Il nous a fallu quelques temps avant de nous en rendre compte (le suivi de waypoints ne marchait plus du tout, et avec la fonction verif_gps(), nous avons réalisé qu'il nous renvoyait toujours la même valeur).
 Nous avons commencé par sécher l'IMU, mais rien n'y fit, elle était vraiment endommagée, donc nous avons dû la remplacer et recommencer les calibrations.
 Nous avons malheureusement perdu beaucoup de temps sur notre journée, et au final notre lissajou n'a pas vraiment fonctionné. Le temps que nous avons passé le lendemain pour améliorer le programme n'a pas apporté de meilleures solutions non plus. 
+
 ## Jour 4 : Suivi de ligne (guidage)
 Le matin, nous avons eu un cours sur le suivi de ligne, pour éviter le phénomène de la courbe du chien. La première mission du jour consistait en : aller jusqu'à la bouée et continuer avec le même cap pendant 2 min (que nous avons raccourci à 1min30 sous les conseils d'un groupe précédent). Voici le log de ce trajet :
 
